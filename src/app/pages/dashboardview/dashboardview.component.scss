@@ -1,0 +1,40 @@
+.changecolor{
+    background-color: rgb(112, 189, 112);
+    color: white;
+}
+.changecolor1{
+    background-color: rgb(177, 99, 75);
+    color: white;
+}
+.changecolor2{
+    background-color: rgb(231, 166, 45);
+    color: white;
+}
+.changecolorF2{
+     
+    color: green;
+}
+.changecolorF3{
+     
+    color: red;
+}
+.changecolor3{
+    background-color: rgb(233, 98, 138);
+    color: white;
+}
+.changecolor4{
+    background-color: rgb(157, 224, 166);
+    color: black;
+}
+
+table th {
+    position: -webkit-sticky; // this is for all Safari (Desktop & iOS), not for Chrome
+    position: sticky;
+    top: 0;
+    z-index: 1; // any positive value, layer order is global
+    background: #fff; // any bg-color to overlap
+}
+
+.modal-lg {
+    max-width: 70% !important;
+}

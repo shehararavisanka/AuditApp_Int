@@ -1,0 +1,27 @@
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg  ">
+    <a class="navbar-brand" href="#">Basilur Tea</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item ">
+          <a class="nav-link" href="/BasilurStockapp/#/dashboard">Dashboard<span class="sr-only">(current)</span></a>
+        </li> 
+        <li class="nav-item ">
+          <a class="nav-link" href="/BasilurStockapp/#/excelupload">Excel Upload<span class="sr-only"> </span></a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="/BasilurStockapp/#/userhandle">User Handle<span class="sr-only"> </span></a>
+        </li>
+
+
+         
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <p style="color: white; font-size: x-large ;margin-left: 30px;">Hi {{group}} User</p>
+        <button class="bg-dark"   type="submit"><p style="color: white;" (click)="logout()">LogOut</p></button>
+      </form>
+     
+    </div>
+  </nav>

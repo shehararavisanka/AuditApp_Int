@@ -1,0 +1,516 @@
+<app-header></app-header>
+
+
+
+<div style="margin-left: 20px;margin-right: 20px;">
+
+    <div class="row" style="margin-top:30px;">
+
+        <div class="form-group row" style="margin-left: 30px;">
+            <label class="  col-form-label col-form-label-sm" style="width: 100px;">Category</label>
+            <select ngModel name="option" class="form-control" id="selectAction" style="width: 200px;"
+                [(ngModel)]="filterdataset.category">
+                <option *ngFor="let op of ret.data[1]" [value]="op.Category">
+                    {{ op.Category }}
+                </option>
+            </select>
+        </div>
+        <div class="form-group row" style="margin-left: 30px;">
+            <label class=" col-form-label col-form-label-sm" style="width: 100px;">Item Code</label>
+            <input type="text" [(ngModel)]="filterdataset.ItemCode" class="form-control form-control-sm row-3"
+                style="width: 150px;" id="email" name="email" autocomplete="off" required="required">
+        </div>
+        <div class="form-group row" style="margin-left: 30px;">
+            <label class=" col-form-label col-form-label-sm" style="width: 100px;">Lot</label>
+            <input type="text" [(ngModel)]="filterdataset.Lot" class="form-control form-control-sm row-3"
+                style="width: 150px;" id="email" name="email" autocomplete="off" required="required">
+        </div>
+
+        <button class="btn btn-primary my-2 my-sm-0" type="submit"
+            style="margin-left: 30px;font-size: small;height: 40px;" (click)="LoadData()"
+            [disabled]="issearch  || isshow==1  ">Search</button>
+
+        <button class="btn btn-warning" type="submit" style="margin-left: 50px;font-size: small;height: 40px;"
+            (click)="clearFilter()" [disabled]="issearch">Clear Filter</button>
+
+
+
+        <div class="spinner-border" role="status" *ngIf="issearch">
+            <span class="sr-only">Loading...</span>
+        </div>
+
+
+
+
+    </div>
+    <div class="row" *ngIf="isshow==1">
+        <div class="form-group row" style="margin-left: 30px;">
+            <label class="col-form-label col-form-label-sm" style="width: 85px;">Location</label>
+            <div class="col-sm-6">
+                <!-- <input type="text" [(ngModel)]="filterdataset.Location" class="form-control form-control-sm row-3"
+                    id="email" name="email" autocomplete="off" required="required"> -->
+
+                <select ngModel name="option" class="form-control" id="selectAction" style="width: 200px;"
+                    [(ngModel)]="filterdataset.Location">
+                    <option *ngFor="let op of ret?.data[3]" [value]="op.Location">
+                        {{ op.Location }}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row" style="margin-left: 20px;">
+            <label class=" col-form-label col-form-label-sm" style="width: 85px;">ItemCode</label>
+            <select ngModel name="option" class="form-control" id="selectAction" style="width: 200px;"
+                [(ngModel)]="filterdataset.ItmCode">
+                <option *ngFor="let op of ret?.data[2]" [value]="op.Item">
+                    {{ op.Item }}
+                </option>
+            </select>
+        </div>
+        <div class="form-group row" style="margin-left: 30px;">
+            <label class="col-form-label col-form-label-sm" style="width: 40px;">Lot</label>
+            <div class="col-sm-6">
+                <!-- <input type="text" [(ngModel)]="filterdataset.Location" class="form-control form-control-sm row-3"
+                    id="email" name="email" autocomplete="off" required="required"> -->
+
+                <select ngModel name="option" class="form-control" id="selectAction" style="width: 200px;"
+                    [(ngModel)]="filterdataset.lot">
+                    <option *ngFor="let op of ret?.data[4]" [value]="op.lot">
+                        {{ op.lot }}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row" style="margin-left: 30px;">
+            <label class="col-form-label col-form-label-sm" style="width: 60px;">Exception</label>
+            <div class="col-sm-6">
+                <!-- <input type="text" [(ngModel)]="filterdataset.Location" class="form-control form-control-sm row-3"
+                    id="email" name="email" autocomplete="off" required="required"> -->
+
+                <select ngModel name="option" class="form-control" id="selectAction" style="width: 200px;"
+                    [(ngModel)]="filterdataset.Exception">
+                    <option value=""></option>
+                    <option value="  ">null</option>
+                    <option value="Excess">Excess</option>
+                    <option value="Stock Ok">Stock Ok</option>
+                    <option value="Low Qty">Low Qty</option>
+                </select>
+            </div>
+        </div>
+
+     
+
+        <button class="btn btn-primary my-2 my-sm-0" type="submit"
+            style="margin-left: 30px;font-size: small;height: 40px;" (click)="LoadData()"
+            [disabled]="issearch">Apply</button>
+
+
+        <button class="btn btn-warning" type="submit" style="margin-left: 50px;font-size: small;height: 40px;"
+            (click)="clearFilter1()" [disabled]="issearch">Clear Filter</button>
+
+        <div class="form-group row" style="margin-left: 30px;">
+            <input type="text" [(ngModel)]="custsearch" class="form-control form-control-sm row-3"
+                placeholder="Search Here.." style="width: 150px;" id="email" name="email" autocomplete="off"
+                required="required">
+        </div>
+        <div class="form-group row" style="margin-left: 30px;"  >
+            <label class="col-form-label col-form-label-sm" style="width: 100px;">Not Verified  <input type="checkbox" [(ngModel)]="filterdataset.IsChecked" style="width: 20px;height: 20px;"></label>
+            <div class="col-sm-6">
+              
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row" style="margin-top:30px;">
+
+        <h3 *ngIf="dataset.length==0 && isshow==2">No Maching Data found...Please try Again</h3>
+        <table class="table" *ngIf="dataset.length>0 && Isshowtable==0">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Categories</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">OnHand</th>
+                    <th scope="col" style="text-align: center;">Verify Qty</th>
+                    <th scope="col">Varience</th>
+                    <th scope="col">Lot</th>
+                    <th scope="col">Exceptions</th>
+                    <th scope="col">Group1</th>
+                    <th scope="col">Group2</th>
+                    <th scope="col">Group3</th>
+                    <th scope="col">Group4</th>
+                    <th scope="col">Group5</th>
+                    <th scope="col">Group6</th>
+                    <th scope="col">Group7</th>
+                    <th scope="col">Group8</th>
+                    <th scope="col">Group9</th>
+                    <th scope="col">Group10</th>
+                    <th scope="col">Verified</th>
+                    <!-- <th scope="col">Group11</th>
+                    <th scope="col">Rack12</th> -->
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let subLst of dataset|filter:custsearch ;let indexOfelement=index;"
+                    style="font-size: small;" [ngClass]="{'changecolor4': subLst.IsChecked==1}">
+
+                    <td [ngClass]="{'changecolor': subLst.IsNewData >0}">{{indexOfelement+1}}</td>
+                    <td (click)="onclickCate(subLst)"  tabindex="0"  data-toggle="tooltip" data-toggle="modal"
+                    data-target="#exampleModalCenter1"> {{subLst.Category}}</td>
+                    <td> {{subLst.Item}} </td>
+                    <td> {{subLst.Description}} </td>
+                    <td> {{subLst.Location}} </td>
+                    <td [ngClass]="{'changecolor2': subLst.onHandQty >0}" style="text-align: right;"  > {{subLst.onHandQty | number: '.2'}} </td>
+                    <td style="text-align: right;" > {{subLst.verified | number: '.2'}} </td>
+                    <td [ngClass]="{'changecolorF2': subLst.varience >0 , 'changecolorF3' : 0>subLst.varience }" style="text-align: right;" ><b> {{subLst.varience | number: '.2'}}</b>
+                    </td>
+                    <td> {{subLst.lot}} </td>
+
+                    <td [ngClass]="{'changecolor': subLst.ex === 'Excess', 'changecolor1' : subLst.ex === 'Low Qty' }">
+                        {{ subLst.ex}} </td>
+                    <td (click)="openDialog(subLst,'Group1')" [ngClass]="{'changecolor3': userType=='Group1'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack1| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack1"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group2')" [ngClass]="{'changecolor3': userType=='Group2'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack2| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack2"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group3')" [ngClass]="{'changecolor3': userType=='Group3'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack3| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack3"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group4')" [ngClass]="{'changecolor3': userType=='Group4'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack4| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack4"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group5')" [ngClass]="{'changecolor3': userType=='Group5'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack5| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack5"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group6')" [ngClass]="{'changecolor3': userType=='Group6'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack6| number: '.2'">
+
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack6"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group7')" [ngClass]="{'changecolor3': userType=='Group7'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack7| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack7"
+                                style="width: 30px;">
+                        </span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group8')" [ngClass]="{'changecolor3': userType=='Group8'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack8| number: '.2'">
+
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack8"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group9')" [ngClass]="{'changecolor3': userType=='Group9'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack9| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack9"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group10')" [ngClass]="{'changecolor3': userType=='Group10'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack10| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack10"
+                                style="width: 30px;">
+                        </span>
+                    </td>
+
+                    <td> <input type="checkbox" [(ngModel)]="subLst.IsChecked" [disabled]="userType!='StockM'"
+                            (ngModelChange)="updateStock(subLst)" style="width: 20px;height: 20px;"></td>
+
+                </tr>
+
+            </tbody>
+        </table>
+
+
+        <table class="table" *ngIf="dataset.length>0 && Isshowtable==1">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Categories</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Inv No</th>
+                    <th scope="col">Garden Mark</th>
+                    <th scope="col">Sale Date</th>
+                    <th scope="col">OnHand</th>
+                    <th scope="col">Verify Qty</th>
+                    <th scope="col">Varience</th>
+                    <th scope="col">Lot</th>
+                    <th scope="col">Exceptions</th>
+                    <th scope="col">Group1</th>
+                    <th scope="col">Group2</th>
+                    <th scope="col">Group3</th>
+                    <th scope="col">Group4</th>
+                    <th scope="col">Group5</th>
+                    <th scope="col">Group6</th>
+                    <th scope="col">Group7</th>
+                    <th scope="col">Group8</th>
+                    <th scope="col">Group9</th>
+                    <th scope="col">Group10</th>
+                    <th scope="col">Verified</th>
+                    <!-- <th scope="col">Group11</th>
+                    <th scope="col">Rack12</th> -->
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let subLst of dataset|filter:custsearch ;let indexOfelement=index;"
+                    style="font-size: small;" [ngClass]="{'changecolor4': subLst.IsChecked==1}">
+
+                    <td [ngClass]="{'changecolor': subLst.IsNewData >0}" >{{indexOfelement+1}}</td>
+                    <td > {{subLst.Category}}</td>
+                    <td> {{subLst.Item}} </td>
+                    <td> {{subLst.InvNo}} </td>
+                    <td> {{subLst.GardenMark}} </td>
+                    <td> {{subLst.SaleDate}} </td>
+                    <td [ngClass]="{'changecolor2': subLst.onHandQty >0}"> {{subLst.onHandQty | number: '.2'}} </td>
+                    <td> {{subLst.verified | number: '.2'}} </td>
+                    <td style="background-color: rgb(48, 47, 47);color: azure;"> {{subLst.varience | number: '.2'}}
+                    </td>
+                    <td> {{subLst.lot}} </td>
+
+                    <td [ngClass]="{'changecolor': subLst.ex === 'Excess', 'changecolor1' : subLst.ex === 'Low Qty' }">
+                        {{ subLst.ex}} </td>
+                    <td (click)="openDialog(subLst,'Group1')" [ngClass]="{'changecolor3': userType=='Group1'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack1| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack1"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group2')" [ngClass]="{'changecolor3': userType=='Group2'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack2| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack2"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group3')" [ngClass]="{'changecolor3': userType=='Group3'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack3| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack3"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group4')" [ngClass]="{'changecolor3': userType=='Group4'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack4| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack4"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group5')" [ngClass]="{'changecolor3': userType=='Group5'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack5| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack5"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group6')" [ngClass]="{'changecolor3': userType=='Group6'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack6| number: '.2'">
+
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack6"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group7')" [ngClass]="{'changecolor3': userType=='Group7'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack7| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack7"
+                                style="width: 30px;">
+                        </span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group8')" [ngClass]="{'changecolor3': userType=='Group8'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack8| number: '.2'">
+
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack8"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group9')" [ngClass]="{'changecolor3': userType=='Group9'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack9| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack9"
+                                style="width: 30px;"></span>
+                    </td>
+                    <td (click)="openDialog(subLst,'Group10')" [ngClass]="{'changecolor3': userType=='Group10'}">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-toggle="modal"
+                            data-target="#exampleModalCenter" [title]="subLst.Rack10| number: '.2'">
+                            <input type="text" [disabled]="subLst.IsChecked" [(ngModel)]="subLst.Rack10"
+                                style="width: 30px;">
+                        </span>
+                    </td>
+
+                    <td> <input type="checkbox" [(ngModel)]="subLst.IsChecked" [disabled]="userType!='StockM'"
+                            (ngModelChange)="updateStock(subLst)" style="width: 20px;height: 20px;"></td>
+
+                </tr>
+
+            </tbody>
+        </table>
+
+
+
+    </div>
+
+
+</div>
+
+
+<div class="modal fade  bd-example-modal-xl" id="exampleModalCenter" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="height: 500px; ">
+            <h3 style="margin-left: 10px;margin-top: 20px;">{{rackNo}}</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div style="margin-left: 10px;margin-top: 20px;">
+
+                        <div class="form-group row">
+
+                            <div class="col-sm-6">
+                                <input type="text" [(ngModel)]="orderqty" class="form-control form-control-sm row-3"
+                                    autofocus id="email" name="email" autocomplete="off" required="required">
+
+                                <p> {{orderqty | number: '.2' }}</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary my-2 my-sm-0" type="submit" style="margin-left: 5px;"
+                                    [disabled]="disablebtn" (click)="saveItemQty()" data-dismiss="modal"
+                                    (keyup.enter)="saveItemQty()">Save Changes</button>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+
+                            <div class="col-sm-4">
+                                <span>OnHand {{OnHand | number: '.2'}}</span>
+                            </div>
+                            <div class="col-sm-4">
+                                <span>Verified {{Verified | number: '.2'}}</span>
+                            </div>
+                            <div class="col-sm-4">
+                                <span>Total Varience with other groups {{Varient | number: '.2'}}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" style="margin-left: 30px;margin-top: 20px;">
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-6">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">CreatedDate</th>
+                                <th scope="col">Item Qty</th>
+                                <th scope="col">Comment</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let subLst of datasetOrder ;let indexOfelement=index;">
+
+                                <td>{{subLst.CreatedDate | date:'dd/MM/yyyy HH:mm'}}</td>
+                                <td> <input type="number" [(ngModel)]="subLst.orderQtyNew"
+                                        class="form-control form-control-sm row-3" [disabled]="userType!='Admin'"
+                                        autofocus id="email" name="email" autocomplete="off" required="required">
+                                </td>
+                                <td><input type="text" [(ngModel)]="subLst.Comment"
+                                        class="form-control form-control-sm row-3" autofocus id="email" name="email"
+                                        autocomplete="off" required="required"> </td>
+                                <td (click)="updateuserHistory(subLst)"><i class="fa fa-check" aria-hidden="true"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade  bd-example-modal-xl" id="exampleModalCenter1" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="height: 80% !important; ">
+            
+            
+            <div class="row">
+                
+                <div class="col-md-12" style="margin-top: 15px;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Category</th>
+                                <th scope="col">TeaCategory</th>
+                                <th scope="col">TeaSTD</th>
+                                <th scope="col">Blend</th>
+                                <th scope="col">Item</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">QtyKG</th>
+                                <th scope="col">RateperKG</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let subLst of secondtbl ;let indexOfelement=index;">
+
+                                <td>{{subLst.Category}}</td> 
+                                <td>{{subLst.TeaCategory}}</td> 
+                                <td>{{subLst.TeaSTD}}</td> 
+                                <td>{{subLst.Blend}}</td> 
+                                <td>{{subLst.Item}}</td> 
+                                <td>{{subLst.Location}}</td> 
+                                <td>{{subLst.QtyKG}}</td> 
+                                <td>{{subLst.RateperKG}}</td>
+                            </tr>
+                            <tr >
+
+                                <td></td> 
+                                <td></td> 
+                                <td></td> 
+                                <td></td> 
+                                <td>Total Amounts</td> 
+                                <td></td> 
+                                <td>{{QtyKGsum}} </td> 
+                                <td><b>{{RateperKG}}</b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
